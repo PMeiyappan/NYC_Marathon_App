@@ -1,0 +1,18 @@
+
+#container {
+    margin-top: 2em;
+}
+
+.hidden {
+  display: none;
+}
+
+div.tooltips {
+  color: black;
+  background: #F9F9F9;
+  padding: .25em;
+  border-radius: 0.2em;
+  opacity: 1;
+  position: absolute;
+  border: 0.2em solid #999999;
+}

@@ -1,0 +1,352 @@
+<html>
+    <body>
+
+
+    </body>
+</html>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.drbunsen.org/static/favicon.ico">
+    
+    
+    <script data-require="jquery@*" data-semver="2.1.4" src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script data-require="bootstrap@*" data-semver="3.3.6" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script data-require="underscore.js@*" data-semver="1.8.3" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script data-require="d3@*" data-semver="3.5.3" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"></script>
+    <link data-require="font-awesome@*" data-semver="4.5.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
+
+    <link rel="stylesheet" type="text/css" href="/static/css/bumps-chart.css">
+
+    <title>NYC Marathon Pace Planner</title>
+    
+    <style>
+    
+      
+      html, body{
+          height: 100%;
+          padding-top: 70px;
+      }
+      .dl-horizontal dt 
+      {
+          white-space: normal;
+          width: 200px; 
+      }
+
+      .dl-horizontal dd 
+      {
+          margin-left: 220px;
+      }
+      
+      ol li{
+          margin-bottom: 1em;
+      }
+      
+      a {
+          font-weight: bold;
+      }
+      
+      
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top" >
+      <div class="container-fluid">
+        <div class="row">
+          <form method="post">
+            <table class="table my-form-table">
+              <tr>
+                <td class="col-xs-2">
+                  <a href="/">
+                    <button type="button" class="btn btn-default btn-lg text-center"
+                            style="padding: 0;">
+                      <span class="glyphicon glyphicon-home" style="margin: 1em;" aria-hidden="true"></span> 
+                    </button>
+
+                  
+                  </a>
+                  
+                  
+                </td>
+                <td class="col-xs-1">
+                </td>
+                <td class="col-xs-1">
+                </td>
+                <td class="col-xs-2">
+                </td>
+                <td class="col-xs-2">
+                </td>
+                <td class="col-xs-3 text-right">
+                  <div class="buttons">
+                    <a href="/about">
+                      <i class="fa" style="font-size: 1.5em;font-weight: bold;">About</i> 
+                    </a>
+                    <a href="https://sites.google.com/site/meiyapp2/">
+                      <i class="fa fa-pencil-square fa-3x"></i> 
+                    </a>
+                    <a href="http://github.com/PMeiyappan">
+                      <i class="fa fa-github-square fa-3x"></i>
+                    </a>
+                    <a href="http://linkedin.com/in/PMeiyappan">
+                      <i class="fa fa-linkedin-square fa-3x"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                </td>
+                <td>
+                  
+                  
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+              </tr>
+            </table>
+            
+            
+            
+            
+          </form>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container" style="width: 50%">
+      <script async class="speakerdeck-embed" data-id="2eae1f6dc0924502942efff6cefeb01b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+    </div>
+    
+    <div class="container text-justify">
+      <section>
+      
+        <h2>Project description</h2>
+        
+        <section>
+          <h3>Motivation</h3>
+
+          <p>
+          In 1970s, one in 1000 Americans ran a marathon. In 2015, one in 500 
+          Americans ran a marathon totaling to over a half million participants. 
+          Marathon participations are trending with recreational runners 
+          discovering the health benefit of exercise. 
+
+          </p>
+          
+          <p>
+          Anyone who has witnessed or run a marathon (including myself) knows it 
+          is a challenging event because of the grueling distance involved 
+          (42.2km). So, an interesting question is can we help the recreational 
+          runners improve their pacing strategy so they could finish the race in 
+          their target goal time? 
+          </p>
+
+          <p>
+          The most popular solution is to join a pace team where a group of 
+          runners with similar goals run together in the marathon at a steady 
+          pace. However, uniform pacing strategy for all runners with similar goal 
+          time is not optimal because they differ in age, gender, and experience, 
+          among others.
+          </p>
+    
+          
+          </section>
+        <section>
+          <h3>My Project</h3>
+          <p>
+          
+          As a fellow in the Insight Data Science program, I developed a web app 
+          (<a href="http://paceplannr.com">paceplannr.com</a>) in 3 weeks to provide
+          personalized recommendation on 
+          pacing strategy for recreational marathoners that overcomes the above 
+          limitation of pace groups. The recommendation is powered by data on how 
+          relatively more experienced runners manage their time across different 
+          splits of the marathon. 
+
+          </p>
+          
+          <p>
+          To use the app, a runner would input the target goal time, age, gender, 
+          and prior experience. The app will output the recommended time to spend 
+          on each split of the marathon (ten splits totaling to 42.2km). 
+          </p>
+          
+          <p>
+          <strong>DATA</strong>: Every marathon course is unique. Therefore, recommendations should 
+          also be course-specific. I focused on the New York City (NYC) marathon: 
+          the most participated marathon in the world. The implications are 
+          twofold: 1. I have more data to train and validate the model, and 2. my 
+          web app can cater to more audience (higher returns to investment). 
+          </p>
+
+          <p>
+          I scraped ~40 years of NYC marathon results from their official
+          <a href="http://web2.nyrrc.org/cgi-bin/htmlos.cgi/mar-programs/archive/archive_search.html">website</a>
+          totaling to 1.5 million runner profiles (using Python and
+          <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>).
+          For each runner, I knew their demographics and split times. I 
+          cleaned up the data to eliminate runners with missing or erroneous 
+          entries. 
+          </p>
+          
+          <p>
+          Using SQL queries on the database, I quantified the “prior 
+          experience” each runner had with NYC marathon: I treated this variable 
+          as indicative of their overall running performance (and fitness). This 
+          is a highly stylized assumption because prior experience with a 
+          particular marathon is not necessarily indicative of their overall 
+          performance. To evaluate this assumption, I did a dimensionality 
+          reduction (<a href="https://lvdmaaten.github.io/tsne/">t-SNE</a>)
+          on runner split times (for year 2014) and color coded 
+          each runner by three broad classes of “prior experience”. The 
+          distinct clusters evident in figure below indicate that: 1. running 
+          strategies do differ with “prior experience” and, 2. “prior 
+          experience” is a reasonable proxy to measure running performance. As 
+          the objective is to provide recommendation based on experienced runners, 
+          I trained the model on runners who had prior experience running the 
+          marathon. 
+          </p>
+
+          <div class="well text-center">
+            <img src="/static/images/t-SNE_Marathon.png" style="width: 50%"></img>
+          </div>
+          
+          <p>
+          I hypothesized that external factors including temperature, humidity, 
+          and wind can influence pace of runners across years. Therefore, I 
+          extracted weather data corresponding to each race day from
+          <a href="http://giovanni.gsfc.nasa.gov/giovanni/">NASA website</a>. 
+          I strategically picked weather stations around NYC marathon course and 
+          averaged the hourly records between 9 AM and 1 PM corresponding to 
+          marathon start time and average finish time respectively. 
+
+          </p>
+          <p>
+          <strong>ALGORITHM:</strong> The response variable in my analysis is the fraction 
+          (proportion) of “target goal time” a runner spent on each of the ten 
+          splits of the marathon (10 responses per runner). The fraction can vary 
+          from 0 to 1, and the sum of fractions adds up to 1. 
+
+          </p>
+          <p>
+          The features in my model include target goal time, age, gender 
+          (categorical), running experience, temperature, humidity, and wind 
+          vector. As the continuous variables are in different units and scale, I 
+          standardized the data using z-scores. Following standardization, I also 
+          included squared and first-order interaction terms as features in my 
+          analysis. For example, I would expect a 32 to 33ºC rise in temperature 
+          to have different effect on running compared to 26 to 27ºC rise in 
+          temperature (although it’s a 1ºC rise in both cases). The squared 
+          terms can help explain such non-linear effects. Similarly, same weather 
+          can affect different age groups differently: the interaction terms are 
+          useful in this case. In total, I included 38 features in the model. 
+          </p>
+          <p>
+          I modeled the relationship between the response variable and features as 
+          a <a href="http://www.nber.org/papers/w16354">Fractional Multinomial Logit Model</a>.
+          I chose the model for three reasons: 
+          
+            <dl class="dl-horizontal">
+              <dt>Appropriate for problem at hand</dt>
+              <dd>It can predict proportions in 
+                  response variable (for details, see <a href="http://www.nber.org/papers/w16354">here</a>)
+                  thereby being consistent with 
+                  our modeled responses (fraction of time spent on each split).
+              </dd>
+
+
+              <dt>Fast and efficient</dt>
+              <dd>The model heuristics allow fast fitting of large 
+                  datasets. Therefore, it enhances both model development process and user 
+                  experience at front-end. 
+              </dd>
+              <dt>Validation Accuracy</dt>
+              <dd>A 10-fold cross-validation indicated that the model 
+                  can explain ~72% of the (null) deviance in the dataset. The prediction 
+                  accuracy is reasonable, considering the above two benefits the model 
+                  offers. 
+              </dd>
+            </dl>
+
+          </p>
+          <p>
+          I implemented the model using a <a href="https://github.com/dwf/glmnet-python">Python</a>
+          wrapper for the <a href="https://cran.r-project.org/web/packages/glmnet/index.html">glmnet</a>
+          package developed by <a href="http://web.stanford.edu/~hastie/">Trevor Hastie</a> at Stanford.
+          I chose the package because it 
+          uses:
+          
+            <ol>
+              <li>
+                <a href="https://web.stanford.edu/~hastie/Papers/B67.2%20(2005)%20301-320%20Zou%20&%20Hastie.pdf">Elastic-net</a>
+                regularization, a state-of-the-art method for feature selection, and,
+              </li>
+              <li>
+                  <a href="https://web.stanford.edu/~hastie/Papers/pathwise.pdf">Coordinate descent method</a>
+                  that can efficiently fit large datasets (reason 2 above). 
+              </li>
+            </ol>
+          </p>
+          <p>
+          I built the front-end using Flask, Bootstrap, jQuery, and AWS. 
+
+          </p>
+          <p>
+          All python codes can be accessed from my <a href="https://github.com/PMeiyappan/NYC_Marathon_App">GitHub page</a>. 
+          </p>
+
+        </section>
+        <section>
+          <h3>Improvements and future directions</h3>
+          <ol>
+            <li>
+              Marathon performance depends on a number of runner-specific latent 
+              variables (e.g. mental state of the runner, sleep quality, nutrition 
+              balance, etc.). The model can benefit by including features that can 
+              serve as proxy to such variables. This would also make the app more 
+              actionable because features such as weather, age, and gender although 
+              important, cannot be controlled by the runner. 
+
+            </li>
+            <li>
+              The “prior experience” variable is a crude approximation to runner 
+              performance or fitness. The app can leverage on data collected through 
+              mobile training apps (e.g. <a href="https://www.strava.com/mobile"Strava</a>
+              or <a href="http://www.nike.com/us/en_us/c/running/nikeplus/gps-app">Nike</a>),
+              so that marathon pacing 
+              strategy can be made a function of runner’s training. Further, 
+              integrating the functionality of the two apps would help recommend 
+              training strategies to improve marathon performance. 
+
+            </li>
+            <li>
+
+              A data-driven web app is a good start; however, transitioning towards a 
+              data-informed app by weighing in user feedbacks would help improve 
+              runner performance (the core-objective of the app). To this end, scaling 
+              the app to other major marathon courses would help accumulate feedbacks 
+              quickly and also help identify the relative order of importance to 
+              incorporate the missing features. 
+
+            </li>
+          </ol>
+        </section>
+        
+        <div style="margin: 5em"></div>
+        
+      </section>
+      
+    </div>
+  </body>
+</html>

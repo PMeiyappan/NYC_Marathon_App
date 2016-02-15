@@ -1,0 +1,248 @@
+<html>
+    <body>
+
+
+    </body>
+</html>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.drbunsen.org/static/favicon.ico">
+    
+    
+    <script data-require="jquery@*" data-semver="2.1.4" src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script data-require="bootstrap@*" data-semver="3.3.6" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script data-require="underscore.js@*" data-semver="1.8.3" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script data-require="d3@*" data-semver="3.5.3" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"></script>
+    <link data-require="font-awesome@*" data-semver="4.5.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
+
+    <link rel="stylesheet" type="text/css" href="/static/css/bumps-chart.css">
+
+    <title>NYC Marathon Pace Planner</title>
+    
+    <style>
+      .my-runner-table{
+          margin-top: 1em;
+          width:auto;
+          margin-left:auto;
+          margin-right:auto;
+      
+      }
+      .my-figure-title{
+          font-size: 1.2em;
+      
+      }
+      
+      .my-form-table td{
+          vertical-align: bottom !important;
+      }
+      .my-runner-table-title{
+          text-align: center;
+      }
+      
+      html, body{
+          height: 100%;
+          padding-top: 70px;
+      }
+      
+      
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="row">
+          <form method="post">
+            <table class="table my-form-table">
+              <tr>
+                <td class="col-xs-1">
+                  <a href="/">
+                    <button type="button" class="btn btn-default btn-lg"
+                            style="padding: 0; text-center">
+                      <span class="glyphicon glyphicon-home" style="margin: 1em;" aria-hidden="true"></span> 
+                    </button>
+                  </a>
+                  
+                  
+                </td>
+                <td class="col-xs-2">
+                  <label for="Target Finish Time">Your Target Finish Time</label>
+                </td>
+                <td class="col-xs-2">
+                  <label for="Age">Your Age</label>
+                </td>
+                <td class="col-xs-2">
+                  <label for="Experience">Number of times you have run the NYC marathon</label>
+                </td>
+                <td class="col-xs-2">
+                  <label for="Gender">Gender</label>
+                </td>
+                <td class="col-xs-3 text-right">
+                  
+                  <div class="buttons">
+                  
+                    <a href="/about">
+                      <i class="fa" style="font-size: 1.5em;font-weight: bold;">About</i> 
+                    </a>
+                    <a href="https://sites.google.com/site/meiyapp2/">
+                      <i class="fa fa-pencil-square fa-3x"></i> 
+                    </a>
+                    <a href="http://github.com/PMeiyappan">
+                      <i class="fa fa-github-square fa-3x"></i>
+                    </a>
+                    <a href="http://linkedin.com/in/PMeiyappan">
+                      <i class="fa fa-linkedin-square fa-3x"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                </td>
+                <td>
+                  
+                  <input required="required" class="form-control" type="text" 
+                         pattern="0?[0-8]:[0-5][0-9]" name="Target Finish Time"
+                         placeholder="HH:MM" value="{{TFT}}"/>
+                  
+                </td>
+                <td>
+                  <input required="required" class="form-control" type="number"
+                         min="18" max="99" name="Age" placeholder="18 to 99"
+                         value="{{Age}}"/>
+                </td>
+                <td>
+                  <input required="required" class="form-control" type="text"
+                         name="Experience" placeholder="0 to 46"
+                         value="{{Experience}}"/>
+                </td>
+                <td>
+                  <input required="required" type="radio" name="Gender" value="Male"
+                         {% if Gender == "Male" %}checked="checked"{% endif %}/> Male
+                  <input required="required" type="radio" name="Gender" value="Female"
+                         {% if Gender == "Female" %}checked="checked"{% endif %}/> Female
+                </td>
+                <td>
+                  <input type="submit" class="btn btn-danger"/>
+                </td>
+              </tr>
+            </table>
+            
+            
+            
+            
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      
+      <div class="text-center">
+        <section id="introduction">
+          
+          <h2 class="prj">Plan your pace for the next NYC marathon!</h2>
+
+          <div class="row">
+          {% if mytable %}
+            <div class="col-md-6">
+              <h2 class="my-figure-title">How your pace compares to previous NYC marathon runners</h2>
+              <div class="chart" data-url="{{mytable['marathon_data_url']}}" id="chart" >
+              
+              </div>
+              <script type="text/javascript" src="/static/js/bumps-chart-project.js"></script>
+              <div class="text-justify">
+                <h5 class="">The above visualization captures the kinetics of your marathon run.
+                    The blue line corresponds to your suggested race strategy. Each orange
+                    line corresponds to the race strategy of one runner from the previous
+                    NYC marathon who finished the race with following overall positions:
+                    1, 10, 100, 500, 1000, 2500, 5000, 7500, and 10000.
+                    The vertical position of each line represents the overall place of a
+                    runner at a specific split compared to other runners in the chart.
+                    Hover over a line with the mouse to reveal metadata about the runner.
+                    The speed at which the animation is executed is proportional to the
+                    speed of the runner.</h5>
+              </div>
+            </div>
+            
+            
+            <div class="col-md-6" id="wrapper">
+              <table class="table table-striped my-runner-table" style="">
+               <thead>
+                  <tr>
+                    <th colspan="3" class="my-runner-table-title">Suggested Pacing Strategy</th>
+                  </tr>
+                  <tr>
+                    <th>Splits</th>
+                    <th>Cumulative Time (min)</th>
+                    <th>Split Pace (min/km)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>5k</td>
+                    <td>{{mytable['ProjTime'][0]}}</td>
+                    <td>{{mytable['ProjPace'][0]}}</td>
+                  </tr>
+                  <tr>
+                    <td>10k</td>
+                    <td>{{mytable['ProjTime'][1]}}</td>
+                    <td>{{mytable['ProjPace'][1]}}</td>
+                  </tr>
+                  <tr>
+                    <td>15k</td>
+                    <td>{{mytable['ProjTime'][2]}}</td>
+                    <td>{{mytable['ProjPace'][2]}}</td>
+                  </tr>
+                  <tr>
+                    <td>20k</td>
+                    <td>{{mytable['ProjTime'][3]}}</td>
+                    <td>{{mytable['ProjPace'][3]}}</td>
+                  </tr>
+                  <tr>
+                    <td>Half</td>
+                    <td>{{mytable['ProjTime'][4]}}</td>
+                    <td>{{mytable['ProjPace'][4]}}</td>
+                  </tr>
+                  <tr>
+                    <td>25k</td>
+                    <td>{{mytable['ProjTime'][5]}}</td>
+                    <td>{{mytable['ProjPace'][5]}}</td>
+                  </tr>
+                     <tr>
+                    <td>30k</td>
+                    <td>{{mytable['ProjTime'][6]}}</td>
+                    <td>{{mytable['ProjPace'][6]}}</td>
+                  </tr>
+                  <tr>
+                    <td>35k</td>
+                    <td>{{mytable['ProjTime'][7]}}</td>
+                    <td>{{mytable['ProjPace'][7]}}</td>
+                  </tr>
+                  <tr>
+                    <td>40k</td>
+                    <td>{{mytable['ProjTime'][8]}}</td>
+                    <td>{{mytable['ProjPace'][8]}}</td>
+                  </tr>   
+                  <tr>
+                    <td>Finish</td>
+                    <td>{{mytable['ProjTime'][9]}}</td>
+                    <td>{{mytable['ProjPace'][9]}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+
+            </div>
+            
+            {% endif %}
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
