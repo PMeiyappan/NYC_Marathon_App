@@ -24,6 +24,8 @@
   * scipy
   * sklearn
   * pandas
+  * matplotlib
+  * seaborn
 
 
 #####Instructions for ubuntu if you run out of memory

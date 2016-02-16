@@ -2,29 +2,33 @@ from __future__ import print_function # In python 2.7
 
 
 import argparse
-from flask import Flask, render_template, request
-import sklearn.preprocessing
-from sklearn.externals import joblib
-from sklearn.preprocessing import PolynomialFeatures
 import csv
 import os
-import numpy as np
-import pandas as pd
 import datetime
 import re
 import sys
-from numpy import genfromtxt
 import math
-from flask import Response
 import time
 import tempfile
-
-
-app = Flask( __name__)
+from StringIO import StringIO
+import json
 import logging
 
+import sklearn.preprocessing
+from sklearn.externals import joblib
+from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+from numpy import genfromtxt
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from flask import Response
+from flask import Flask, render_template, request
+
+app = Flask( __name__)
+
 import parser
-import json
 
 
 def generate_series(TFT, Age, Experience, Gender):
@@ -50,7 +54,7 @@ def generate_series(TFT, Age, Experience, Gender):
 
     y_predict=[]
     for i in range(coeff.shape[0]):
-      y_predict.append(math.exp(coeff[i,0]+np.sum(np.multiply(X,coeff[i,1:]))))
+        y_predict.append(math.exp(coeff[i,0]+np.sum(np.multiply(X,coeff[i,1:]))))
 
     
     denominator=sum(y_predict)
@@ -65,8 +69,8 @@ def generate_series(TFT, Age, Experience, Gender):
     y_predict=np.cumsum(y_predict)
 
     #turn them into formatted strings
-    y_pace = ['{0:.2f}'.format(v) for v in y_pace]
-    y_predict = ['{0:.1f}'.format(v) for v in y_predict]
+    #y_pace = ['{0:.2f}'.format(v) for v in y_pace]
+    #y_predict = ['{0:.1f}'.format(v) for v in y_predict]
     
 
     
@@ -127,6 +131,9 @@ def home_posted():
 
     y_pace, y_predict = generate_series(TFT, Age, Experience, Gender)
     
+    y_pace = ['{0:.2f}'.format(v) for v in y_pace]
+    y_predict = ['{0:.1f}'.format(v) for v in y_predict]
+
     marathon_data_url = '/marathon-data.json?Target+Finish+Time=%s&Age=%s&Experience=%s&Gender=%s'
     
     marathon_data_url = marathon_data_url % (TFT0, Age, Experience, Gender)
@@ -144,6 +151,56 @@ def home_posted():
                               , Experience=Experience
                               , Gender=Gender
                                 )
+@app.route('/bar-plot.png',methods=['GET', 'POST'])
+def bar_plot_chart():
+    TFT0=request.values.get('Target Finish Time')
+    Age=request.values.get('Age')
+    Experience=request.values.get('Experience')
+    Gender=request.values.get('Gender')
+
+
+    TFTHH,_,TFTMM = TFT0.partition(':')
+    TFTHH = int(TFTHH)
+    TFTMM = int(TFTMM)
+    
+    TFT = TFTHH*60 + TFTMM
+    
+    y_pace, y_predict = generate_series(TFT, Age, Experience, Gender)
+
+
+    Pace=np.asarray(y_pace)
+    #Pace=np.asarray([4.93,4.38,4.41,4.46,5.08,4.46,4.55,4.85,5.06,3.94])
+
+    xaxis=np.asarray(['0-5k','5-10k','10-15k','15-20k','20k-Half','Half-25k','25-30k','30-35k','35-40k','40k-Finish'])
+
+    assert len(Pace) == len(xaxis)
+
+
+    sns.set_style("white")
+    bar_plot = sns.barplot(x=xaxis,y=Pace,
+                            color="dodgerblue")
+    bar_plot.set(xlabel='Split', ylabel='Pace (min/km)')
+    plt.xticks(rotation=90)
+    plt.ylim(round((min(Pace)-0.25/2)*4)/4,round((max(Pace)+0.25/2)*4)/4)
+
+
+    for p,PaceValue in zip(bar_plot.patches, Pace):
+        height = p.get_height()
+        #bar_plot.text(p.get_x(), height+0.02, '%1.2f'%(Pace[count]),fontweight="bold")
+        bar_plot.text(p.get_x(), height+0.02, '%1.2f'%(PaceValue))
+        
+    bar_plot.set(axis_bgcolor='whitesmoke')
+    bar_plot.set_title('YOUR RECOMMENDED SPLIT PACE (min/km)',fontweight="bold") 
+
+    imgdata = StringIO()
+    plt.savefig(imgdata, format='png', bbox_inches="tight", dpi=150)
+    imgdata.seek(0)  # rewind the data
+
+    
+    return Response(imgdata.buf,  mimetype='image/png')
+    return Response(imgdata.buf,  mimetype='image/svg+xml')
+    
+
 
 
 @app.route('/marathon-data.json', methods=['GET', 'POST'])

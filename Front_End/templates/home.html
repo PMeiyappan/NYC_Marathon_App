@@ -146,8 +146,18 @@
           
           <h2 class="prj">Plan your pace for the next NYC marathon!</h2>
 
-          <div class="row">
           {% if mytable %}
+
+
+          <div class="row" style="margin:2em">
+            <img style="width: 50%" src="/bar-plot.png?Target+Finish+Time={{TFT}}&amp;Age={{Age}}&amp;Experience={{Experience}}&amp;Gender={{Gender}}">
+            </img>
+          </div>
+
+          <div class="row">
+            <h4>More Insights About Your Running Strategy</h4>
+
+            <div style="margin: 2em"></div>
             <div class="col-md-6">
               <h2 class="my-figure-title">How your pace compares to previous NYC marathon runners</h2>
               <div class="chart" data-url="{{mytable['marathon_data_url']}}" id="chart" >
@@ -173,7 +183,7 @@
               <table class="table table-striped my-runner-table" style="">
                <thead>
                   <tr>
-                    <th colspan="3" class="my-runner-table-title">Suggested Pacing Strategy</th>
+                    <th colspan="3" class="my-runner-table-title">Your Pacing Strategy Tabulated</th>
                   </tr>
                   <tr>
                     <th>Splits</th>
@@ -238,9 +248,12 @@
 
 
             </div>
-            
-            {% endif %}
+
+
+
+
           </div>
+          {% endif %}
         </section>
       </div>
     </div>
